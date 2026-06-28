@@ -90,12 +90,12 @@ router.post('/setup-2fa', async (req, res) => {
     if (existing) {
       db.prepare(
         'UPDATE otp_accounts SET encrypted_secret = ? WHERE id = ?'
-      ).run(encrypt(secret), existing.id);
+      ).run(encrypt(secret, userId), existing.id);
     } else {
       db.prepare(`
         INSERT INTO otp_accounts (user_id, issuer, account_name, encrypted_secret)
         VALUES (?, 'AuthenticatorDemo', ?, ?)
-      `).run(userId, email, encrypt(secret));
+      `).run(userId, email, encrypt(secret, userId));
     }
 
     res.json({
@@ -184,7 +184,7 @@ router.post('/verify-otp', (req, res) => {
     }
 
     // Decrypt the secret and verify OTP
-    const secret = decrypt(account.encrypted_secret);
+    const secret = decrypt(account.encrypted_secret, userId);
     const delta = verifyTOTP(otpCode, secret, {
       algorithm: account.algorithm,
       digits: account.digits,
