@@ -1,36 +1,55 @@
-# DA1 2FA System
+# Hệ thống Xác thực Hai yếu tố (2FA) — ĐA1
 
-Monorepo for a two-factor authentication system with three parts:
+Đồ án xây dựng một hệ thống xác thực hai yếu tố hoàn chỉnh: một **API server**, một
+**ứng dụng Authenticator** (sinh và quản lý mã OTP, dạng PWA cài được trên điện thoại)
+và một **ứng dụng Demo** minh họa luồng đăng nhập có 2FA và đăng nhập không mật khẩu
+(passwordless).
 
-- `server/` - Express API with SQLite storage
-- `authenticator-app/` - Vite + React PWA for managing OTP accounts
-- `demo-app/` - Vite + React demo flow for 2FA and passwordless login
+## Thành phần
 
-## Tech Stack
+- `server/` — API Express + SQLite: quản lý người dùng, sinh/xác minh OTP, cấp JWT,
+  luồng passwordless dựa trên đường cong elliptic.
+- `authenticator-app/` — PWA React + Vite: quét mã QR, lưu khóa OTP **mã hóa cục bộ**
+  (IndexedDB + kdbxweb), sinh mã TOTP, hoạt động offline.
+- `demo-app/` — React + Vite: website mẫu cho người dùng cuối trải nghiệm đăng nhập
+  có bật 2FA và đăng nhập không mật khẩu.
 
-- Backend: Node.js, Express, SQLite
-- Frontends: React, Vite
-- Auth: OTP, JWT, WebAuthn / Schnorr-based passwordless flow
+## Công nghệ
 
-## Local Development
+| Lớp | Công nghệ |
+|---|---|
+| Backend | Node.js, Express 5, SQLite (better-sqlite3) |
+| Frontend | React 19, Vite 8, PWA (vite-plugin-pwa) |
+| Xác thực | TOTP (otpauth), JWT (access + refresh), passwordless dựa trên `@noble/curves` |
+| Bảo mật | helmet, express-rate-limit, bcrypt, mã hóa AES khóa OTP |
 
-Each app is self-contained. Run the service you need from its folder.
+## Yêu cầu
+
+- Node.js **22** (LTS) trở lên — đúng phiên bản dùng trong CI và khi deploy.
+- npm 10+.
+
+## Chạy cục bộ
+
+Mỗi ứng dụng độc lập; chạy từ thư mục của nó.
 
 ### Server
 
 ```bash
 cd server
 npm install
-npm run dev
+npm run dev        # node --watch, chạy ở cổng 3000
 ```
 
-Required environment variables:
+Biến môi trường (tạo file `server/.env`):
 
-- `MASTER_KEY`
-- `JWT_SECRET`
-- `JWT_REFRESH_SECRET`
-- `DB_PATH` (optional)
-- `CORS_ORIGINS`
+| Biến | Bắt buộc | Ý nghĩa |
+|---|---|---|
+| `MASTER_KEY` | ✅ | Khóa AES 32 byte dạng **hex 64 ký tự**. Sinh bằng `openssl rand -hex 32`. |
+| `JWT_SECRET` | ✅ | Chuỗi ngẫu nhiên ký JWT access token. |
+| `JWT_REFRESH_SECRET` | ✅ | Chuỗi ngẫu nhiên ký JWT refresh token. |
+| `DB_PATH` | — | Đường dẫn file SQLite. Mặc định `./data/authenticator.db`. |
+| `CORS_ORIGINS` | — | Danh sách URL frontend, ngăn cách bằng dấu phẩy. |
+| `PORT` | — | Cổng API. Mặc định `3000`. |
 
 ### Authenticator app
 
@@ -48,32 +67,38 @@ npm install
 npm run dev
 ```
 
-## Deployment
+Hai frontend đọc biến `VITE_API_URL` (URL gốc của API, **không** kèm `/api`) lúc build.
 
-Deployment details are documented in [DEPLOY.md](DEPLOY.md) and the Render blueprint in [render.yaml](render.yaml).
+## Kiểm thử
 
-Typical flow:
+Hệ thống có **71 ca kiểm thử tự động** chạy trên mỗi push/PR qua GitHub Actions
+([`.github/workflows/ci.yml`](.github/workflows/ci.yml)):
 
-1. Push the repo to GitHub.
-2. Deploy the Render Blueprint.
-3. Set `MASTER_KEY` on the server service.
-4. Set `VITE_API_URL` on both frontend services.
-5. Set `CORS_ORIGINS` on the server.
-6. Redeploy the two frontend services after updating `VITE_API_URL`.
+```bash
+cd server && npm test               # 61 ca (Jest + supertest)
+cd authenticator-app && npm test    # 10 ca (Vitest)
+```
 
-## Repository Hygiene
+Server cần các biến `MASTER_KEY`, `JWT_SECRET`, `JWT_REFRESH_SECRET` khi chạy test
+(CI dùng khóa giả hợp lệ — xem workflow).
 
-This repo is configured to ignore:
+## Triển khai
 
-- `node_modules/`
-- `dist/`
-- `.env`
-- SQLite database files
-- `docs/`
-- `fileBaoCao/`
+Hướng dẫn deploy chi tiết (Render Blueprint và phương án Vercel + Render) nằm ở
+**[DEPLOY.md](DEPLOY.md)**; cấu hình hạ tầng ở [render.yaml](render.yaml).
 
-## More Information
+Tóm tắt luồng trên Render:
 
-- [Deployment guide](DEPLOY.md)
+1. Đẩy repo lên GitHub.
+2. Render → New → Blueprint → chọn repo → Apply (tạo sẵn 3 dịch vụ + đĩa lưu trữ).
+3. Đặt `MASTER_KEY` cho server (`openssl rand -hex 32`).
+4. Khi 2 web có URL: đặt `VITE_API_URL` cho mỗi web và `CORS_ORIGINS` cho server.
+5. Manual Deploy lại 2 web để build với `VITE_API_URL` đúng.
+
+## Tài liệu
+
+- [Hướng dẫn triển khai](DEPLOY.md)
 - [Render blueprint](render.yaml)
-- [CI workflow](.github/workflows/ci.yml)
+- [Quy trình CI](.github/workflows/ci.yml)
+</content>
+</invoke>
