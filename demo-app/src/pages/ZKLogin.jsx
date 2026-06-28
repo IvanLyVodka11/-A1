@@ -56,12 +56,12 @@ export default function ZKLogin() {
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
           </div>
-          <h1 className="card__title">Đăng nhập không mật khẩu</h1>
+          <h1 className="card__title">Passwordless login</h1>
           <p className="card__subtitle">Zero-Knowledge · Schnorr · secp256k1</p>
         </div>
 
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '16px', textAlign: 'center' }}>
-          Khóa bí mật được tạo trên thiết bị này và không bao giờ rời khỏi trình duyệt của bạn.
+          Your secret key is generated on this device and never leaves your browser.
         </p>
 
         {error && (
@@ -92,7 +92,7 @@ export default function ZKLogin() {
           </div>
 
           <button className="btn btn--primary" type="submit" disabled={loading || !email}>
-            {loading ? <span className="spinner" /> : 'Đăng nhập không mật khẩu (ZK)'}
+            {loading ? <span className="spinner" /> : 'Sign in passwordless (ZK)'}
           </button>
         </form>
 
@@ -103,12 +103,12 @@ export default function ZKLogin() {
           disabled={loading || !email}
           type="button"
         >
-          {loading ? <span className="spinner" /> : 'Thiết lập passwordless cho email này'}
+          {loading ? <span className="spinner" /> : 'Set up passwordless for this email'}
         </button>
 
         <div className="footer-link" style={{ marginTop: 16 }}>
           <a href="#" onClick={e => { e.preventDefault(); navigate('/login'); }}>
-            Quay lại đăng nhập thông thường
+            Back to regular sign-in
           </a>
         </div>
       </div>

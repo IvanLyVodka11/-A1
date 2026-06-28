@@ -87,6 +87,9 @@ export default function DemoLogin() {
         <div className="footer-link">
           No account? <a href="#" onClick={(e) => { e.preventDefault(); navigate('/register'); }}>Create one</a>
         </div>
+        <div className="footer-link" style={{ marginTop: 8 }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/zk-login'); }}>Sign in without a password (ZK)</a>
+        </div>
       </div>
     </div>
   );
