@@ -1,0 +1,68 @@
+# Render Blueprint — deploy cả 3 thành phần (1 API + 2 web tĩnh).
+# Dùng: đẩy repo lên GitHub → Render → New → Blueprint → chọn repo này.
+# Sau lần deploy đầu, điền VITE_API_URL (cho 2 web) và CORS_ORIGINS (cho server)
+# bằng URL thật rồi bấm "Manual Deploy" lại. Xem DEPLOY.md để biết chi tiết.
+services:
+  # ── API: Express + SQLite (đĩa lưu trữ bền vững) ──────────────────────────
+  - type: web
+    name: da1-2fa-server
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # MASTER_KEY phải là 64 ký tự hex (32 byte). KHÔNG dùng generateValue
+      # vì giá trị sinh ra không bảo đảm đúng định dạng hex. Tự sinh bằng:
+      #   openssl rand -hex 32
+      - key: MASTER_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/authenticator.db
+      # Điền sau khi 2 web có URL, ví dụ:
+      # https://da1-authenticator.onrender.com,https://da1-demo.onrender.com
+      - key: CORS_ORIGINS
+        sync: false
+    disk:
+      name: sqlite-data
+      mountPath: /var/data
+      sizeGB: 1
+
+  # ── Web 1: Authenticator (React PWA, Vite) ────────────────────────────────
+  - type: web
+    name: da1-authenticator
+    runtime: static
+    rootDir: authenticator-app
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      # URL gốc của API (không kèm /api), ví dụ https://da1-2fa-server.onrender.com
+      - key: VITE_API_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # ── Web 2: Demo 2FA (React, Vite) ─────────────────────────────────────────
+  - type: web
+    name: da1-demo
+    runtime: static
+    rootDir: demo-app
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

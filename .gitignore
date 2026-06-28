@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+**/dist/
+
+# Secrets & môi trường
+.env
+**/.env
+!**/.env.example
+
+# CSDL SQLite (dữ liệu runtime)
+*.db
+*.db-shm
+*.db-wal
+
+# Báo cáo (không đẩy theo yêu cầu)
+docs/
+fileBaoCao/
+
+# Công cụ build báo cáo (tùy chọn — đang loại vì gắn với docs/)
+scripts/__pycache__/
+
+# Cấu hình IDE / agent cục bộ
+.claude/
+.agents/
+.vscode/
+.DS_Store

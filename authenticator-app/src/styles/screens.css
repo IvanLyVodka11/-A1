@@ -1,0 +1,187 @@
+/* screens.css — layout for AppShell, account grid/list, OTP item, manage bar,
+   settings. Uses design tokens from tokens.css (no raw hex). */
+
+/* ── AppShell ───────────────────────────────────────────── */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-muted);
+  position: sticky;
+  top: 0;
+  background: var(--color-surface-base);
+  z-index: 20;
+}
+.app-header__lead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.app-header__brand {
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.app-header__search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.app-header__search .ds-search { width: 100%; }
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) 96px;
+}
+.app-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--color-surface-raised) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--color-border-muted);
+  z-index: 30;
+}
+
+/* ── Account grid / list ────────────────────────────────── */
+.account-grid--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+.account-grid--list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ── OTP item ───────────────────────────────────────────── */
+.otp-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast);
+}
+.otp-item:hover { border-color: var(--color-accent); }
+.otp-item:active { transform: scale(0.995); }
+.otp-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.otp-item--selected {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface-raised));
+}
+.otp-item__check { width: 18px; height: 18px; accent-color: var(--color-accent); cursor: pointer; }
+.otp-item__info { min-width: 0; flex: 1; }
+.otp-item__issuer {
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.otp-item__account {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.otp-item__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.otp-item__code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-primary);
+}
+.otp-item__delete {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-xs);
+  display: inline-flex;
+}
+.otp-item__delete:hover { color: var(--color-danger); background: var(--color-surface-strong); }
+.otp-item__delete:focus-visible { outline: 2px solid var(--color-danger); outline-offset: 1px; }
+
+/* ── Manage bar ─────────────────────────────────────────── */
+.manage-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 760px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.manage-bar__select-all {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.manage-bar__select-all:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.manage-bar__count { font-size: 0.85rem; color: var(--color-text-muted); }
+.manage-bar__actions { display: flex; gap: var(--space-2); }
+
+/* ── Settings ───────────────────────────────────────────── */
+.settings-panel { display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-4); }
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+.settings-row__label { font-size: 0.9rem; }
+.settings-row__hint { font-size: 0.78rem; color: var(--color-text-muted); }
+.settings-list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .app-header { flex-wrap: wrap; }
+  .app-header__search { order: 3; flex-basis: 100%; max-width: none; }
+  .account-grid--grid { grid-template-columns: 1fr; }
+  .app-main { padding: var(--space-4) var(--space-3) 92px; }
+}

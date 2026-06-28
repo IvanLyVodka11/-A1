@@ -1,0 +1,427 @@
+/* ============================================================
+   keepass.css — styles for the KeePass Vault feature
+   Uses design-system CSS custom properties from index.css.
+   ============================================================ */
+
+/* ── Page layout ─────────────────────────────────────────── */
+
+.kp-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+
+.kp-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-muted);
+  background: var(--color-surface-raised);
+}
+
+.kp-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background 0.15s;
+}
+
+.kp-back-btn:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-strong);
+}
+
+.kp-header__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.kp-header__logo {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.kp-header__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+/* ── Tabs ────────────────────────────────────────────────── */
+
+.kp-tabs-wrap {
+  padding: 0 var(--space-4);
+  background: var(--color-surface-raised);
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+/* ── Panel (tab content area) ────────────────────────────── */
+
+.kp-panel {
+  flex: 1;
+  padding: var(--space-4);
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Hint text ───────────────────────────────────────────── */
+
+.kp-hint {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0 0 var(--space-4);
+}
+
+/* ── Form wrapper ────────────────────────────────────────── */
+
+.kp-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 480px;
+}
+
+.kp-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* File input */
+.kp-file-input {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  width: 100%;
+}
+
+.kp-file-input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ── Import: toolbar (when entries loaded) ───────────────── */
+
+.kp-import__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
+.kp-import__toolbar .ds-search {
+  flex: 1;
+  min-width: 180px;
+}
+
+.kp-import__count {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ── Entry list ──────────────────────────────────────────── */
+
+.kp-entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.kp-empty {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--space-6) 0;
+}
+
+/* ── VaultEntryRow ───────────────────────────────────────── */
+
+.kp-entry-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  min-height: 60px;
+  flex-wrap: wrap;
+}
+
+.kp-entry-row__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.kp-entry-row__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.kp-entry-row__info {
+  min-width: 0;
+  flex: 1;
+}
+
+.kp-entry-row__title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kp-entry-row__badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: var(--radius-xs);
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+
+.kp-entry-row__username {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kp-entry-row__url {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+}
+
+.kp-entry-row__url:hover {
+  text-decoration: underline;
+}
+
+.kp-entry-row__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.kp-entry-row__password {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kp-entry-row__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.kp-icon-btn {
+  color: var(--color-text-muted);
+}
+
+.kp-icon-btn:hover:not(:disabled) {
+  color: var(--color-text-primary);
+}
+
+/* ── PasswordGenerator ───────────────────────────────────── */
+
+.kp-pwgen {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 480px;
+}
+
+.kp-pwgen__title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.kp-pwgen__output {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  gap: var(--space-2);
+  min-height: 44px;
+}
+
+.kp-pwgen__pw {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  word-break: break-all;
+  flex: 1;
+  letter-spacing: 0.06em;
+}
+
+.kp-pwgen__output-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+/* Strength bar */
+.kp-pwgen__strength {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.kp-pwgen__strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-muted);
+  transition: background 0.2s;
+}
+
+.kp-pwgen__strength-bar.kp-strength--weak   { background: var(--color-danger); }
+.kp-pwgen__strength-bar.kp-strength--fair   { background: var(--color-warning); }
+.kp-pwgen__strength-bar.kp-strength--good   { background: var(--color-success); }
+.kp-pwgen__strength-bar.kp-strength--strong { background: var(--color-success); }
+
+.kp-pwgen__strength-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  min-width: 48px;
+}
+
+/* Length slider */
+.kp-pwgen__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.kp-pwgen__slider-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.kp-pwgen__slider {
+  width: 100%;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+/* Toggles */
+.kp-pwgen__toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Actions */
+.kp-pwgen__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* Standalone generator tab */
+.kp-gen-standalone {
+  max-width: 480px;
+}
+
+/* Export: show/hide generator toggle button */
+.kp-gen-toggle {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  text-decoration: underline;
+}
+
+.kp-gen-toggle:hover {
+  opacity: 0.8;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+  .kp-entry-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kp-entry-row__right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .kp-entry-row__password {
+    max-width: 140px;
+  }
+
+  .kp-header {
+    padding: var(--space-2) var(--space-3);
+  }
+}

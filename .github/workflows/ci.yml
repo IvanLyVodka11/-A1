@@ -1,0 +1,65 @@
+name: CI
+
+# Chạy toàn bộ kiểm thử tự động (71 ca: 61 Jest + 10 Vitest) và build cả ba
+# thành phần trên mỗi lần push / pull request vào nhánh chính.
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  server:
+    name: Server (Jest, 61 ca)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    env:
+      # Khóa giả chỉ dùng cho CI — đúng định dạng 32 byte hex mà encryption yêu cầu.
+      MASTER_KEY: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2
+      JWT_SECRET: ci-test-jwt-secret
+      JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - run: npm test
+
+  authenticator-app:
+    name: Authenticator app (Vitest 10 ca + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: authenticator-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: authenticator-app/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+  demo-app:
+    name: Demo app (build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: demo-app/package-lock.json
+      - run: npm ci
+      - run: npm run build
