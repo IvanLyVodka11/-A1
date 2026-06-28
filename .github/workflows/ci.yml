@@ -22,10 +22,10 @@ jobs:
       JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret
       NODE_ENV: test
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
           cache-dependency-path: server/package-lock.json
       - run: npm ci
@@ -38,10 +38,10 @@ jobs:
       run:
         working-directory: authenticator-app
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
           cache-dependency-path: authenticator-app/package-lock.json
       - run: npm ci
@@ -55,10 +55,10 @@ jobs:
       run:
         working-directory: demo-app
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
           cache-dependency-path: demo-app/package-lock.json
       - run: npm ci

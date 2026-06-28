@@ -15,7 +15,7 @@ services:
     autoDeploy: true
     envVars:
       - key: NODE_VERSION
-        value: "20"
+        value: "22"
       # MASTER_KEY phải là 64 ký tự hex (32 byte). KHÔNG dùng generateValue
       # vì giá trị sinh ra không bảo đảm đúng định dạng hex. Tự sinh bằng:
       #   openssl rand -hex 32
