@@ -25,16 +25,10 @@ services:
         generateValue: true
       - key: JWT_REFRESH_SECRET
         generateValue: true
-      - key: DB_PATH
-        value: /var/data/authenticator.db
       # Điền sau khi 2 web có URL, ví dụ:
       # https://da1-authenticator.onrender.com,https://da1-demo.onrender.com
       - key: CORS_ORIGINS
         sync: false
-    disk:
-      name: sqlite-data
-      mountPath: /var/data
-      sizeGB: 1
 
   # ── Web 1: Authenticator (React PWA, Vite) ────────────────────────────────
   - type: web
