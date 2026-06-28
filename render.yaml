@@ -35,7 +35,7 @@ services:
     name: da1-authenticator
     runtime: static
     rootDir: authenticator-app
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       # URL gốc của API (không kèm /api), ví dụ https://da1-2fa-server.onrender.com
@@ -51,7 +51,7 @@ services:
     name: da1-demo
     runtime: static
     rootDir: demo-app
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
