@@ -1,6 +1,6 @@
 name: CI
 
-# Chạy toàn bộ kiểm thử tự động (71 ca: 61 Jest + 10 Vitest) và build cả ba
+# Chạy toàn bộ kiểm thử tự động (85 ca: 75 Jest + 10 Vitest) và build cả ba
 # thành phần trên mỗi lần push / pull request vào nhánh chính.
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   server:
-    name: Server (Jest, 61 ca)
+    name: Server (Jest, 75 ca)
     runs-on: ubuntu-latest
     defaults:
       run:

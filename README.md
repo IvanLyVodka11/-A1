@@ -71,11 +71,11 @@ Hai frontend đọc biến `VITE_API_URL` (URL gốc của API, **không** kèm 
 
 ## Kiểm thử
 
-Hệ thống có **71 ca kiểm thử tự động** chạy trên mỗi push/PR qua GitHub Actions
+Hệ thống có **85 ca kiểm thử tự động** chạy trên mỗi push/PR qua GitHub Actions
 ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)):
 
 ```bash
-cd server && npm test               # 61 ca (Jest + supertest)
+cd server && npm test               # 75 ca (Jest + supertest)
 cd authenticator-app && npm test    # 10 ca (Vitest)
 ```
 

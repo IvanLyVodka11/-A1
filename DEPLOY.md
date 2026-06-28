@@ -46,7 +46,7 @@ File [`render.yaml`](render.yaml) đã khai báo sẵn cả 3 dịch vụ + đĩ
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) chạy mỗi push/PR:
 
-- `server`: `npm ci` + `npm test` (61 ca Jest) với khóa test giả.
+- `server`: `npm ci` + `npm test` (75 ca Jest) với khóa test giả.
 - `authenticator-app`: `npm ci` + `npm test` (10 ca Vitest) + `npm run build`.
 - `demo-app`: `npm ci` + `npm run build`.
 
